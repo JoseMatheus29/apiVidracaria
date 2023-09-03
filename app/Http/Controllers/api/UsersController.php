@@ -12,7 +12,8 @@ class UsersController extends Controller
             $user = new user();
             $user->username = $request->username;
             $user->email = $request->email;
-            $user->password = $request->password;
+            $passwordCrip = password_hash($request->password, PASSWORD_DEFAULT);
+            $user->password = $passwordCrip;
 
             $user->save();
             return ['status' => 'ok'];

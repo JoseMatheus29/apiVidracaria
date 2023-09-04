@@ -9,5 +9,6 @@ use App\Http\Controllers\api\UsersController;
 Route::namespace('Api') -> group(function(){
     //Rotas Login
     Route::post('register',[UsersController::class, 'register']);
+    Route::get('login',[UsersController::class, 'login']);
 
 });

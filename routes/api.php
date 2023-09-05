@@ -10,5 +10,6 @@ Route::namespace('Api') -> group(function(){
     //Rotas Login
     Route::post('register',[UsersController::class, 'register']);
     Route::get('login',[UsersController::class, 'login']);
+    Route::get('logout',[UsersController::class, 'logout']);
 
 });

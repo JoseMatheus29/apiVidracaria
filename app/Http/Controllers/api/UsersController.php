@@ -32,7 +32,7 @@ class UsersController extends Controller
                         $passwordRecevied = $request->password;
 
                         if(password_verify($passwordRecevied,$senha)){
-                            $user -> login = 1;
+                            DB::update('UPDATE users SET login = true ');
                             return ['status' => 'ok'];
                         }else{
                             return ['status' => 'erro', 'details' => 'senha não confere'];
@@ -45,7 +45,27 @@ class UsersController extends Controller
             }
 
     }
-   
+    public function logout(Request $request){
+        try{
+            $users = DB::select('SELECT * FROM users');
+            foreach($users as $user){
+                if($user->username == $request->username){
+                    $senha = $user->password;
+                    $passwordRecevied = $request->password;
+
+                    if(password_verify($passwordRecevied,$senha)){
+                        DB::update('UPDATE users SET login = false ');
+                        return ['status' => 'ok'];
+                    }else{
+                        return ['status' => 'erro', 'details' => 'senha não confere'];
+                    }
+                }
+            }
+            
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 
      
 }

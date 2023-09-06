@@ -5,6 +5,8 @@ use App\Models\user;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PasswordResetEmail;
 
 class UsersController extends Controller
 {
@@ -60,12 +62,16 @@ class UsersController extends Controller
                         return ['status' => 'erro', 'details' => 'senha não confere'];
                     }
                 }
-            }
-            
+            }           
         }catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }
     }
-
-     
+    public function sendEmailPassWord (Request $request){
+        $recoveryCode = random_int(10000, 99999); 
+        $email = new PasswordResetEmail($recoveryCode);
+        Mail::to('destinatario@example.com')->send($email);
+        return $recoveryCode;
+    }
+    
 }

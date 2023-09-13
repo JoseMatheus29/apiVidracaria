@@ -12,5 +12,6 @@ Route::namespace('Api') -> group(function(){
     Route::get('login',[UsersController::class, 'login']);
     Route::get('logout',[UsersController::class, 'logout']);
     Route::post('sendEmailCode',[UsersController::class, 'sendEmailCode']);
+    Route::post('verifyCodePassword',[UsersController::class, 'verifyCodePassword']);
 
 });

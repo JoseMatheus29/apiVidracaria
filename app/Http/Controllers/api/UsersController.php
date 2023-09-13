@@ -10,7 +10,6 @@ use App\Mail\PasswordResetEmail;
 
 class UsersController extends Controller
 {
-    protected $recoveryCode;
 
     public function register(Request $request){
         try{
@@ -70,11 +69,22 @@ class UsersController extends Controller
         }
     }
     public function sendEmailCode (Request $request){
-        $this -> recoveryCode = random_int(10000, 99999); 
-        $email = new PasswordResetEmail($this->recoveryCode);
+        $recoveryCode = random_int(10000, 99999); 
+        DB::update('UPDATE users SET verifyCode = ? WHERE email = ?', [$recoveryCode, $request->email]);
+        $email = new PasswordResetEmail($recoveryCode);
         Mail::to($request->email)->send($email);
-        return $this->recoveryCode;
+
+        return $recoveryCode;
     }
-   
+    /*/public function verifyCodePassword(Request $request){
+        $recoveryCodeUser = $request->codigo;
+        if ($recoveryCodeUser == ){
+            return "Codigo valido";
+        }else{
+            echo $recoveryCodeUser;
+            echo $this-> recoveryCode;
+            return "Codigo invalido";
+        }
+    }/*/
     
 }

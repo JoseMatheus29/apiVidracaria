@@ -69,22 +69,34 @@ class UsersController extends Controller
         }
     }
     public function sendEmailCode (Request $request){
-        $recoveryCode = random_int(10000, 99999); 
-        DB::update('UPDATE users SET verifyCode = ? WHERE email = ?', [$recoveryCode, $request->email]);
-        $email = new PasswordResetEmail($recoveryCode);
-        Mail::to($request->email)->send($email);
-
-        return $recoveryCode;
-    }
-    /*/public function verifyCodePassword(Request $request){
-        $recoveryCodeUser = $request->codigo;
-        if ($recoveryCodeUser == ){
-            return "Codigo valido";
-        }else{
-            echo $recoveryCodeUser;
-            echo $this-> recoveryCode;
-            return "Codigo invalido";
+        try{
+            $emailUser = DB::select('SELECT * FROM users WHERE email = ?', [$request -> email]);
+            if(sizeof($emailUser) != 0){
+                $recoveryCode = random_int(10000, 99999); 
+                DB::update('UPDATE users SET verifyCode = ? WHERE email = ?', [$recoveryCode, $request->email]);
+                $email = new PasswordResetEmail($recoveryCode);
+                Mail::to($request->email)->send($email);
+                return $recoveryCode;
+            }else{
+                return "Email não registrado no banco";
+            }
+            
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
         }
-    }/*/
+    }
+    public function verifyCodePassword(Request $request){
+        try{
+            $recoveryCodeDb = DB::select('SELECT * FROM users WHERE verifyCode = ?'. [$request -> codigo]);
+            if (sizeof($recoveryCodeDb)){
+                return "Codigo valido";
+            }else{
+                return "Codigo invalido";
+            }
+        }
+        catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
     
 }

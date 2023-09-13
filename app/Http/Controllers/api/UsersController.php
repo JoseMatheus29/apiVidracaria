@@ -86,15 +86,33 @@ class UsersController extends Controller
         }
     }
     public function verifyCodePassword(Request $request){
+        /*Retorna apenas true ou false caso o codigo seja validado ou nao*/
         try{
             $recoveryCodeDb = DB::select('SELECT * FROM users WHERE verifyCode = ?'. [$request -> codigo]);
             if (sizeof($recoveryCodeDb)){
-                return "Codigo valido";
+                return true;
             }else{
-                return "Codigo invalido";
+                return false;
             }
         }
         catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+    public function newPassword(Request $request){
+        try{
+            $passwordsDb = DB::select('SELECT senhas FROM users Where username ?', [$request -> username]);
+            $passwordRecevied = $request->senha;
+            foreach($passwordsDb as $passwordUser){
+                if(password_verify($passwordRecevied,$passwordUser)){
+                    DB::update('UPDATE users SET senha = ? Where usarname = ? ', [$request -> senha, $request -> usarname]);
+                    return "Senha atualizada";
+                }else{
+                    return 'Senha não confere';
+                }
+            }
+           
+        }catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }
     }

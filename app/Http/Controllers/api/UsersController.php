@@ -101,13 +101,16 @@ class UsersController extends Controller
     }
     public function newPassword(Request $request){
         try{
-            $passwordsDb = DB::select('SELECT senhas FROM users Where username ?', [$request -> username]);
-            $passwordRecevied = $request->senha;
-            foreach($passwordsDb as $passwordUser){
-                if(password_verify($passwordRecevied,$passwordUser)){
-                    DB::update('UPDATE users SET senha = ? Where usarname = ? ', [$request -> senha, $request -> usarname]);
+            $passwordsDb = DB::select('SELECT password FROM users Where username = ?', [$request -> username]);
+            //$passwordOld = password_hash($request->passwordOldUser, PASSWORD_DEFAULT);
+            $passwordOld = $request->passwordOldUser;
+            $passawordNew = $request->passawordNewUser;
+            if (!empty($passwordsDb)) {
+                if($passwordOld == $passwordsDb[0]->password){
+                    DB::update('UPDATE users SET password = ? Where username = ? ', [$passawordNew, $request -> usarname]);
                     return "Senha atualizada";
                 }else{
+                    
                     return 'Senha não confere';
                 }
             }

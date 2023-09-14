@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordResetEmail;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -18,7 +19,6 @@ class UsersController extends Controller
             $user->email = $request->email;
             $passwordCrip = password_hash($request->password, PASSWORD_DEFAULT);
             $user->password = $passwordCrip;
-
             $user->save();
             return ['status' => 'ok'];
         }
@@ -33,7 +33,6 @@ class UsersController extends Controller
                     if($user->username == $request->username){
                         $senha = $user->password;
                         $passwordRecevied = $request->password;
-
                         if(password_verify($passwordRecevied,$senha)){
                             DB::update('UPDATE users SET login = true ');
                             return ['status' => 'ok'];
@@ -55,7 +54,6 @@ class UsersController extends Controller
                 if($user->username == $request->username){
                     $senha = $user->password;
                     $passwordRecevied = $request->password;
-
                     if(password_verify($passwordRecevied,$senha)){
                         DB::update('UPDATE users SET login = false ');
                         return ['status' => 'ok'];
@@ -102,8 +100,7 @@ class UsersController extends Controller
     public function newPassword(Request $request){
         try{
             $passwordsDb = DB::select('SELECT password FROM users Where username = ?', [$request -> username]);
-            //$passwordOld = password_hash($request->passwordOldUser, PASSWORD_DEFAULT);
-            $passwordOld = $request->passwordOldUser;
+            $passwordOld = password_hash($request->passwordOldUser, PASSWORD_DEFAULT);
             $passawordNew = $request->passawordNewUser;
             if (!empty($passwordsDb)) {
                 if($passwordOld == $passwordsDb[0]->password){
@@ -113,6 +110,8 @@ class UsersController extends Controller
                     
                     return 'Senha não confere';
                 }
+            }else{
+                return ['status' => 'erro', 'details' => "Usuario não encontrado!"];
             }
            
         }catch(\Exception $erro){

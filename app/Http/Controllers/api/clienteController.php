@@ -23,5 +23,17 @@ class clienteController extends Controller
         catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }
-    }   
+    }
+    public function listClients(Request $request)  {
+        try{
+
+            $client = client::all();
+            return $client;
+
+        }catch(\Exception $erro){
+            
+            return ['status' => 'erro', 'details' => $erro];
+
+        }
+    }
 }

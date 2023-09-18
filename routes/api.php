@@ -18,5 +18,6 @@ Route::namespace('Api') -> group(function(){
 
     //Routes clients 
     Route::post('registerClient', [clienteController::class, 'register']);
-    
+    Route::get('listClients', [clienteController::class, 'listClients']);
+
 });

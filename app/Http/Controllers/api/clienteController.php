@@ -46,4 +46,15 @@ class clienteController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+
+    public function deleteClient($id){
+        try{
+            $client = client::find($id);
+            $client->delete();
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 }

@@ -20,5 +20,5 @@ Route::namespace('Api') -> group(function(){
     Route::post('registerClient', [clienteController::class, 'register']);
     Route::get('listAllClients', [clienteController::class, 'listAllClients']);
     Route::get('listClient/{id}', [clienteController::class, 'listClient']);
-
+    Route::delete('delete/{id}',[clienteController::class, 'deleteClient']);
 });

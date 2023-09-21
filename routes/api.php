@@ -16,6 +16,7 @@ Route::namespace('Api') -> group(function(){
     Route::post('sendEmailCodeUser',[UsersController::class, 'sendEmailCode']);
     Route::post('verifyCodePasswordUser',[UsersController::class, 'verifyCodePassword']);
     Route::post('replacePassword',[UsersController::class, 'replacePassword']);
+    Route::post('newPassword',[UsersController::class, 'newPassword']);
 
 
     //Routes clients 

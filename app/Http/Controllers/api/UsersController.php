@@ -118,6 +118,15 @@ class UsersController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
-    
+    public function newPassword(Request $request){
+        try{
+            $passawordNew = $request->passawordNewUser;
+            DB::update('UPDATE users SET password = ? WHERE email = ?', [$passawordNew, $request->email]);
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
     
 }

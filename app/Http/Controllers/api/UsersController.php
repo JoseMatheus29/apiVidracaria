@@ -97,7 +97,7 @@ class UsersController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
-    public function newPassword(Request $request){
+    public function replacePassword(Request $request){
         try{
             $passwordsDb = DB::select('SELECT password FROM users Where username = ?', [$request -> username]);
             $passwordOld = password_hash($request->passwordOldUser, PASSWORD_DEFAULT);
@@ -118,5 +118,6 @@ class UsersController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    
     
 }

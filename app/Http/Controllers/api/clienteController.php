@@ -9,7 +9,7 @@ use App\Models\client;
 
 class clienteController extends Controller
 {
-    public function register(Request $request){
+    public function registerClient(Request $request){
         try{
             $client = new client();
             $client->name = $request->name;

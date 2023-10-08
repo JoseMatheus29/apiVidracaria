@@ -30,5 +30,13 @@ class productController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
-   
+    public function listProduct( $id){
+        try{
+            $product = productBudget::find ($id);
+            return $product;
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 }

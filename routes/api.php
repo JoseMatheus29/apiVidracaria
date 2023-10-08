@@ -13,13 +13,18 @@ Route::namespace('Api') -> group(function(){
     Route::post('registerUser',[UsersController::class, 'register']);
     Route::get('loginUser',[UsersController::class, 'login']);
     Route::get('logoutUser',[UsersController::class, 'logout']);
+
+
+
+
+    //Routes replacePassword
     Route::post('sendEmailCodeUser',[UsersController::class, 'sendEmailCode']);
     Route::post('verifyCodePasswordUser',[UsersController::class, 'verifyCodePassword']);
     Route::post('replacePassword',[UsersController::class, 'replacePassword']);
     Route::post('newPassword',[UsersController::class, 'newPassword']);
 
 
-    //Routes clients 
+    //Crud clients 
     Route::post('registerClient', [clienteController::class, 'registerClient']);
     Route::get('listAllClients', [clienteController::class, 'listAllClients']);
     Route::get('listClient/{id}', [clienteController::class, 'listClient']);
@@ -28,4 +33,6 @@ Route::namespace('Api') -> group(function(){
 
     //Routes product
     Route::post('registerProduct', [productBudget::class, 'registerProduct']);
+    Route::get('listAllProducts', [clienteController::class, 'listAllProducts']);
+
 });

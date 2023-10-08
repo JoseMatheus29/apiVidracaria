@@ -22,4 +22,13 @@ class productController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    public function listAllProducts()  {
+        try{
+            $product = productBudget::all();
+            return $product;
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+   
 }

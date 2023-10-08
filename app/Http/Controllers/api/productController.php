@@ -39,4 +39,15 @@ class productController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+
+    public function deleteProduct($id){
+        try{
+            $product = productBudget::find($id);
+            $product->delete();
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 }

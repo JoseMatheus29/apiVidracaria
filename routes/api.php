@@ -11,7 +11,7 @@ use App\Models\productBudget;
 Route::namespace('Api') -> group(function(){
     //Routes Login
     Route::post('registerUser',[UsersController::class, 'register']);
-    Route::get('loginUser',[UsersController::class, 'login']);
+    Route::post('loginUser',[UsersController::class, 'login']);
     Route::get('logoutUser',[UsersController::class, 'logout']);
 
 

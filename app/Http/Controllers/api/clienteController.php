@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\client;
+use Illuminate\Support\Facades\Auth;
 
 
 class clienteController extends Controller
@@ -26,9 +27,12 @@ class clienteController extends Controller
     }
     public function listAllClients()  {
         try{
-
-            $client = client::all();
-            return $client;
+            if (Auth::check()) {
+                $client = client::all();
+                return $client;
+            }   else {
+                return ['status' => 'erro', 'details' => 'Usuário não autenticado'];
+            }
 
         }catch(\Exception $erro){
             

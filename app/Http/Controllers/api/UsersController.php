@@ -8,10 +8,26 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordResetEmail;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Framework\Attributes\Group;
+use Tymon\JWTAuth\Contracts\JWTSubject ;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UsersController extends Controller
+class UsersController extends Controller implements JWTSubject
 {
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
 
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
     public function register(Request $request){
         try{
             $user = new user();
@@ -26,22 +42,19 @@ class UsersController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }   
+    /**
+     * Handle an authentication attempt.
+     *
+     * @return Response
+     */
     public function login(Request $request){
             try{
-                $users = DB::select('SELECT * FROM users');
-                foreach($users as $user){
-                    if($user->username == $request->username){
-                        $senha = $user->password;
-                        $passwordRecevied = $request->password;
-                        if(password_verify($passwordRecevied,$senha)){
-                            DB::update('UPDATE users SET login = true ');
-                            return ['status' => 'ok'];
-                        }else{
-                            return ['status' => 'erro', 'details' => 'senha não confere'];
-                        }
-                    }
+                $credentials = $request->only(['username', 'password']);
+                print_r($credentials);
+                if (! $token = Auth(guard:'api')->attempt($credentials)) {
+                    return response()->json(['error' => 'Unauthorized'], 401);
                 }
-                
+                return $this->respondWithToken($token);    
             }catch(\Exception $erro){
                 return ['status' => 'erro', 'details' => $erro];
             }
@@ -128,5 +141,20 @@ class UsersController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
-    
+        /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
+
 }

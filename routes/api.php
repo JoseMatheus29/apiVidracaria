@@ -33,7 +33,7 @@ Route::namespace('Api') -> group(function(){
 
     //Routes product
     Route::post('registerProduct', [productBudget::class, 'registerProduct']);
-    Route::group(['middleware' => 'apiProtect'], function () {
+    Route::group(['middleware' => ['apiProtect']], function () {
         Route::get('listAllProducts', [clienteController::class, 'listAllProducts']);
     });
     Route::get('listProduct/{id}', [clienteController::class, 'listProduct']);

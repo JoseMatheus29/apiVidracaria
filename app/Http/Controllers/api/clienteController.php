@@ -14,6 +14,8 @@ class clienteController extends Controller
         try{
             $client = new client();
             $client->name = $request->name;
+            $client->cpf = $request->cpf;
+            $client->city = $request->city;
             $client->birthday = $request->birthday;
             $client->email = $request->email;
             $client->tel = $request->tel;
@@ -27,8 +29,13 @@ class clienteController extends Controller
     }
     public function listAllClients()  {
         try{
-            $client = client::all();
-            return $client;
+            if (Auth::check()) {
+                $client = client::all();
+                return $client;
+            }   else {
+                return ['status' => 'erro', 'details' => 'Usuário não autenticado'];
+            }
+
         }catch(\Exception $erro){
             
             return ['status' => 'erro', 'details' => $erro];

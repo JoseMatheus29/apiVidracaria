@@ -50,7 +50,6 @@ class UsersController extends Controller implements JWTSubject
     public function login(Request $request){
             try{
                 $credentials = $request->only(['username', 'password']);
-                print_r($credentials);
                 if (! $token = Auth(guard:'api')->attempt($credentials)) {
                     return response()->json(['error' => 'Unauthorized'], 401);
                 }

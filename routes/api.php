@@ -13,7 +13,7 @@ Route::namespace('Api') -> group(function(){
     Route::post('registerUser',[UsersController::class, 'register']);
     Route::post('loginUser',[UsersController::class, 'login']);
     Route::get('logoutUser',[UsersController::class, 'logout']);
-
+    Route::post('usernameGerator', [UsersController::class, 'usernameGerator']);
 
 
 
@@ -26,16 +26,16 @@ Route::namespace('Api') -> group(function(){
 
     //Crud clients 
     Route::post('registerClient', [clienteController::class, 'registerClient']);
-    Route::get('listAllClients', [clienteController::class, 'listAllClients']);
+    Route::group(['middleware' => ['apiProtect']], function () {
+        Route::get('listAllClients', [clienteController::class, 'listAllClients']);
+    });
     Route::get('listClient/{id}', [clienteController::class, 'listClient']);
     Route::delete('delete/{id}',[clienteController::class, 'deleteClient']);
 
 
     //Routes product
     Route::post('registerProduct', [productBudget::class, 'registerProduct']);
-    Route::group(['middleware' => ['apiProtect']], function () {
-        Route::get('listAllProducts', [clienteController::class, 'listAllProducts']);
-    });
+    Route::get('listAllProducts', [clienteController::class, 'listAllProducts']);
     Route::get('listProduct/{id}', [clienteController::class, 'listProduct']);
     Route::delete('deleteProduct/{id}',[clienteController::class, 'deleteProduct']);
 

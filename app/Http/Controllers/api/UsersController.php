@@ -140,6 +140,20 @@ class UsersController extends Controller implements JWTSubject
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+
+    public function usernameGerator(Request $request){
+        try{
+            $name = $request->name;
+            $lastName = $request->lastName;
+            $firstTwoLetters = substr($lastName, 0, 1);
+            $newName = $name . $firstTwoLetters;
+            return $newName;
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+
+
         /**
      * Get the token array structure.
      *

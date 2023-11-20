@@ -17,19 +17,19 @@ class loginProtectedRoute extends BaseMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
         try{
             $user = JWTAuth::parseToken()->authenticate();
         }catch(\Exception $erro){
             if($erro instanceof TokenInvalidException){
-                return ['status' => 'Token invalido', 'details' => $erro];
+                return new Response('Token invalido'. "<br>"  . $erro);
             }
            else if($erro instanceof TokenExpiredException){
-                return ['status' => 'Token expirado', 'details' => $erro];
+                return new Response('Token expirado' . "<br>"  . $erro);
             }
             else{
-                return ['status' => 'Token de autorização não encontrado', 'details' => $erro];
+                return new Response('Token de autorização não encontrado' . "<br>"  . $erro);
             }
         }
         return $next($request);

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UsersController;
 use App\Http\Controllers\api\clienteController;
 use App\Http\Controllers\api\productController;
-use App\Models\productBudget;
+use App\Http\Controllers\api\productBudgetController;
 
 Route::namespace('Api') -> group(function(){
     //Routes Login

@@ -30,3 +30,4 @@ class loginProtectedRoute extends BaseMiddleware
         return $next($request);
     }
 }
+ 

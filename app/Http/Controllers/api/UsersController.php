@@ -153,6 +153,19 @@ class UsersController extends Controller implements JWTSubject
         }
     }
 
+    public function listAllUsers()  {
+        try{
+            if (Auth::check()) {
+                $user = user::all();
+                return $user;
+            }   else {
+                return ['status' => 'erro', 'details' => 'Usuário não autenticado'];
+            }
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+
 
         /**
      * Get the token array structure.

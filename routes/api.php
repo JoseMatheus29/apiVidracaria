@@ -15,8 +15,6 @@ Route::namespace('Api') -> group(function(){
     Route::get('logoutUser',[UsersController::class, 'logout']);
     Route::post('usernameGerator', [UsersController::class, 'usernameGerator']);
 
-
-
     //Routes replacePassword
     Route::post('sendEmailCodeUser',[UsersController::class, 'sendEmailCode']);
     Route::post('verifyCodePasswordUser',[UsersController::class, 'verifyCodePassword']);
@@ -35,6 +33,9 @@ Route::namespace('Api') -> group(function(){
         Route::get('listAllProducts', [clienteController::class, 'listAllProducts']);
         Route::get('listProduct/{id}', [clienteController::class, 'listProduct']);
         Route::delete('deleteProduct/{id}',[clienteController::class, 'deleteProduct']);
+        //Routes users
+        Route::get('listAllUsers', [UsersController::class, 'listAllUsers']);
+        
     });
 
 

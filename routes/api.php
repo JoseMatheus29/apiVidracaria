@@ -29,10 +29,10 @@ Route::namespace('Api') -> group(function(){
         Route::get('listClient/{id}', [clienteController::class, 'listClient']);
         Route::delete('delete/{id}',[clienteController::class, 'deleteClient']);
         //Routes product
-        Route::post('registerProduct', [productBudget::class, 'registerProduct']);
-        Route::get('listAllProducts', [clienteController::class, 'listAllProducts']);
-        Route::get('listProduct/{id}', [clienteController::class, 'listProduct']);
-        Route::delete('deleteProduct/{id}',[clienteController::class, 'deleteProduct']);
+        Route::post('registerProduct', [productController::class, 'registerProduct']);
+        Route::get('listAllProducts', [productController::class, 'listAllProducts']);
+        Route::get('listProduct/{id}', [productController::class, 'listProduct']);
+        Route::delete('deleteProduct/{id}',[productController::class, 'deleteProduct']);
         //Routes users
         Route::get('listAllUsers', [UsersController::class, 'listAllUsers']);
         Route::get('listUser/{id}', [UsersController::class, 'listUser']);

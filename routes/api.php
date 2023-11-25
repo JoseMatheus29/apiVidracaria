@@ -36,6 +36,7 @@ Route::namespace('Api') -> group(function(){
         //Routes users
         Route::get('listAllUsers', [UsersController::class, 'listAllUsers']);
         Route::get('listUser/{id}', [UsersController::class, 'listUser']);
+        Route::delete('deleteUser/{id}', [UsersController::class, 'deleteUser']);
 
     });
 

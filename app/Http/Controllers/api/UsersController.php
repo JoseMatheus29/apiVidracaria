@@ -174,6 +174,16 @@ class UsersController extends Controller implements JWTSubject
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    public function deleteUser($id){
+        try{
+            $user = user::find($id);
+            $user->delete();
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 
         /**
      * Get the token array structure.

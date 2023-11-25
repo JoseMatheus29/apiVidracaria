@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\productBudget;
 
-class productController extends Controller
+class productBudgetController extends Controller
 {
     public function registerProduct(Request $request){
         try{

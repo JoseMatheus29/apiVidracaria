@@ -165,7 +165,15 @@ class UsersController extends Controller implements JWTSubject
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    public function listUser($id){
+        try{
+            $user = user::find ($id);
+            return $user;
 
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 
         /**
      * Get the token array structure.

@@ -51,4 +51,14 @@ class budgetController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    public function deleteBudget($id){
+        try{
+            $budget = budget::find ($id);
+            $budget -> delete();
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 }

@@ -42,4 +42,13 @@ class budgetController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    public function listBudget($id){
+        try{
+            $budget = budget::find ($id);
+            return $budget;
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
 }

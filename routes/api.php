@@ -42,7 +42,7 @@ Route::namespace('Api') -> group(function(){
         Route::get('listAllProductBudget', [productBudgetController::class, 'listAllProducts']);
         Route::get('listProductBudget/{id}', [productBudgetController::class, 'listProduct']);
         Route::delete('deleteProductBudget/{id}',[productBudgetController::class, 'deleteProduct']);
-
+        
 
 
 

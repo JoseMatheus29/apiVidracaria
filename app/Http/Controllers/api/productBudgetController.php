@@ -14,7 +14,17 @@ class productBudgetController extends Controller
             $product->name = $request->name;
             $product->description = $request->description;
             $product->quantity = $request->quantity;
-            $product->price = $request->price;
+            $product->value = $request->value;
+            $product->type = $request->type;
+            $product->height = $request->height;
+            $product->width = $request->width;
+            $product->location = $request->location;
+            $product->glasses = $request->glasses;
+            $product->sheets = $request->sheets;
+            $verifyId = $request->validate(['id_budget' => 'exists:budget,id',]);
+            if($verifyId){
+                $product->id_budget = $request->id_budget;
+            }
             $product->save();
             return ['status' => 'ok'];
 

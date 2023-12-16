@@ -45,7 +45,8 @@ Route::namespace('Api') -> group(function(){
         Route::delete('deleteProductBudget/{id}',[productBudgetController::class, 'deleteProduct']);
         
         Route::post('registerBudget', [budgetController::class, 'registerBudget']);
-        
+        Route::get('listAllBudget', [budgetController::class, 'listAllBudget']);
+
 
 
     });

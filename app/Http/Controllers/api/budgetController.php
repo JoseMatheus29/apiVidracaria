@@ -30,8 +30,14 @@ class budgetController extends Controller
 
                 }
             }
-
-
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+    public function listAllBudget(Request $request){
+        try{
+            $budget = budget::all();
+            return $budget;
         }catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }

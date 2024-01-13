@@ -21,6 +21,7 @@ class productBudgetController extends Controller
             $product->location = $request->location;
             $product->glasses = $request->glasses;
             $product->sheets = $request->sheets;
+            $product->amount =  $request->value * $request->quantity;
             $verifyId = $request->validate(['id_budget' => 'exists:budget,id',]);
             if($verifyId){
                 $product->id_budget = $request->id_budget;

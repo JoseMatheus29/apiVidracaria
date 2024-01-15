@@ -51,6 +51,16 @@ class productBudgetController extends Controller
         }
     }
 
+    public function listProductBudgetId($budget_id){
+        try{
+            $product = productBudget::where('budget_id','=', $budget_id)->get();
+            return $product;
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+
     public function deleteProduct($id){
         try{
             $product = productBudget::find($id);

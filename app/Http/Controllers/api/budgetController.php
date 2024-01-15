@@ -23,28 +23,23 @@ class budgetController extends Controller
                 if ($user['id'] == $request->client_id){
                     $budget->client_id = $request->client_id;
                     $budget->save();
-                    return ['status' => 'ok'];
-                }else{
-                    return ['status' => 'erro', 'details' => "cliente não encontrado"];
-
                 }
             }
             $productBudget = productBudget::all();
             foreach($productBudget as $product){
-                if ($product['id'] == $request->productBUdget_id){
+                if ($product['id'] == $request->productBudget_id){
                     $budget->amount += $product['amount'];
-
                     $budget->save();
                     return ['status' => 'ok'];
                 }else{
-                    return ['status' => 'erro', 'details' => "cliente não encontrado"];
-
+                    return ['status' => 'erro', 'details' => "Orçamento não encontrado"];
                 }
             }
         }catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+
     public function listAllBudget(Request $request){
         try{
             $budget = budget::all();

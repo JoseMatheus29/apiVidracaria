@@ -22,9 +22,9 @@ class productBudgetController extends Controller
             $product->glasses = $request->glasses;
             $product->sheets = $request->sheets;
             $product->amount =  $request->value * $request->quantity;
-            $verifyId = $request->validate(['id_budget' => 'exists:budget,id',]);
+            $verifyId = $request->validate(['budget_id' => 'exists:budgets,id',]);
             if($verifyId){
-                $product->id_budget = $request->id_budget;
+                $product->budget_id = $request->budget_id;
             }
             $product->save();
             return ['status' => 'ok'];

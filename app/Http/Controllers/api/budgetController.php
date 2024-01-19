@@ -13,7 +13,6 @@ class budgetController extends Controller
 {
     public function registerBudget(Request $request){
         $budget = new budget();
-        $budget->id =  8;
         $budget->status = $request->status;
         $budget->created_at = $request->created_at;
         $budget->adress = $request->adress;

@@ -33,6 +33,33 @@ class productBudgetController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+
+    public function updateBudget(Request $request, $id){
+        try{
+            $product = productBudget::find($id);
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->quantity = $request->quantity;
+            $product->value = $request->value;
+            $product->type = $request->type;
+            $product->height = $request->height;
+            $product->width = $request->width;
+            $product->location = $request->location;
+            $product->glasses = $request->glasses;
+            $product->sheets = $request->sheets;
+            $product->amount =  $request->value * $request->quantity;
+            $verifyId = $request->validate(['budget_id' => 'exists:budgets,id',]);
+            if($verifyId){
+                $product->budget_id = $request->budget_id;
+            }
+            $product->save();
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+
     public function listAllProducts()  {
         try{
             $product = productBudget::all();

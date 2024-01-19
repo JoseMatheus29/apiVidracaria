@@ -21,6 +21,21 @@ class productController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+
+    public function updateProduct(Request $request, $id){
+        try{
+            $product = product::find($id);
+            $product->name = $request->name;
+            $product->category = $request->category;
+            $product->sheets = $request->sheets;
+            $product->save();
+            return ['status' => 'ok'];
+
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
+
     public function listAllProducts()  {
         try{
             $product = product::all();

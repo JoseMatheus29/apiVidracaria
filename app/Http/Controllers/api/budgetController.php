@@ -33,6 +33,28 @@ class budgetController extends Controller
         return ['status' => 'ok'];
     }
 
+    public function updateBudget(Request $request, $id){
+        $budget =  budget::find($id);
+        $budget->status = $request->status;
+        $budget->created_at = $request->created_at;
+        $budget->adress = $request->adress;
+        $budget->city = $request->city;
+        $budget->description_payment = $request->description_payment;
+        $users = client::all();
+        foreach($users as $user){
+            if ($user['id'] == $request->client_id){
+                $budget->client_id = $request->client_id;
+            }
+        }
+        
+        $products = ProductBudget::where('budget_id', '=', $budget->id)->pluck('amount')->toArray();
+        foreach ($products as $product) {
+            $budget->amount += $product;   
+        }
+        $budget -> save();
+        return ['status' => 'ok'];
+    }
+
     public function listAllBudget(Request $request){
         try{
             $budget = budget::all();

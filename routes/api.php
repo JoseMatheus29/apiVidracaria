@@ -26,11 +26,14 @@ Route::namespace('Api') -> group(function(){
     Route::group(['middleware' => ['apiProtect']], function () {
         //Crud clients 
         Route::post('registerClient', [clienteController::class, 'registerClient']);
+        Route::post('updateClient/{id}', [clienteController::class, 'updateClient']);
         Route::get('listAllClients', [clienteController::class, 'listAllClients']);
         Route::get('listClient/{id}', [clienteController::class, 'listClient']);
         Route::delete('delete/{id}',[clienteController::class, 'deleteClient']);
+        
         //Routes product
         Route::post('registerProduct', [productController::class, 'registerProduct']);
+        Route::post('updateProduct/{id}', [clienteController::class, 'updateProduct']);
         Route::get('listAllProducts', [productController::class, 'listAllProducts']);
         Route::get('listProduct/{id}', [productController::class, 'listProduct']);
         Route::delete('deleteProduct/{id}',[productController::class, 'deleteProduct']);
@@ -40,6 +43,7 @@ Route::namespace('Api') -> group(function(){
         Route::delete('deleteUser/{id}', [UsersController::class, 'deleteUser']);
         
         Route::post('registerBudget', [budgetController::class, 'registerBudget']);
+        Route::post('updateBudget/{id}', [clienteController::class, 'updateBudget']);
         Route::get('listAllBudget', [budgetController::class, 'listAllBudget']);
         Route::get('listBudget/{id}', [budgetController::class, 'listBudget']);
         Route::delete('deleteBudget/{id}',[budgetController::class, 'deleteBudget']);
@@ -50,6 +54,7 @@ Route::namespace('Api') -> group(function(){
 
     //Routes product Budget
     Route::post('registerProductBudget', [productBudgetController::class, 'registerProduct']);
+    Route::post('updateProductBudget/{id}', [clienteController::class, 'updateProductBudget']);
     Route::get('listAllProductBudget', [productBudgetController::class, 'listAllProducts']);
     Route::get('listProductBudget/{id}', [productBudgetController::class, 'listProduct']);
     Route::get('listProductBudgetId/{budget_id}', [productBudgetController::class, 'listProductBudgetId']);

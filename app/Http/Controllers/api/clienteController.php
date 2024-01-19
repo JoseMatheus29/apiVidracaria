@@ -27,6 +27,22 @@ class clienteController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+    public function updateClient(Request $request, $id){
+        try{
+            $client =  client::find($id);
+            $client->name = $request->name;
+            $client->cpf = $request->cpf;
+            $client->city = $request->city;
+            $client->birthday = $request->birthday;
+            $client->email = $request->email;
+            $client->tel = $request->tel;
+            $client->adress = $request->adress;
+            $client->save();
+            return ['status' => 'ok'];
+        }catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
+        }
+    }
     public function listAllClients()  {
         try{
             if (Auth::check()) {

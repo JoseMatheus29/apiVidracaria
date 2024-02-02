@@ -48,7 +48,7 @@ class clienteController extends Controller
             if (Auth::check()) {
                 if($page != 0){
                     
-                    $client = client::paginate(10, ['*'], 'page', $page);
+                    $client = client::orderBy('name')->paginate(10, ['*'], 'page', $page);
                     return $client;
                 }else{
                     $client = client::all();

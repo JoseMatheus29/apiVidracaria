@@ -50,15 +50,15 @@ class UsersController extends Controller implements JWTSubject
      * @return Response
      */
     public function login(Request $request){
-            try{
-                $credentials = $request->only(['username', 'password']);
-                if (! $token = Auth(guard:'api')->attempt($credentials)) {
-                    return response()->json(['error' => 'Unauthorized'], 401);
-                }
-                return $this->respondWithToken($token);    
-            }catch(\Exception $erro){
-                return ['status' => 'erro', 'details' => $erro];
-            }
+        $username = $request->username;
+        $credentials = $request->only(['username', 'password']);
+        $user = user::select('name', 'avatar_url', 'username')->where('username', '=', $username)->get();
+        if (! $token = Auth(guard:'api')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $tokenPass = $this->respondWithToken($token);
+        return ['token' => $tokenPass,'name' =>  $user[0]['name'], 'avatar' =>  $user[0]['avatar_url'], 'username' =>  $user[0]['username']];    
+
 
     }
     public function logout(Request $request){

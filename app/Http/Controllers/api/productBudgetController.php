@@ -34,7 +34,7 @@ class productBudgetController extends Controller
         }
     }
 
-    public function updateBudget(Request $request, $id){
+    public function updateProductBudget(Request $request, $id){
         try{
             $product = productBudget::find($id);
             $product->name = $request->name;

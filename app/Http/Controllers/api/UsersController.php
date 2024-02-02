@@ -31,6 +31,8 @@ class UsersController extends Controller implements JWTSubject
     public function register(Request $request){
         try{
             $user = new user();
+            $user->name = $request->name;
+            $user->avatar_url = $request->avatar_url;
             $user->username = $request->username;
             $user->email = $request->email;
             $passwordCrip = password_hash($request->password, PASSWORD_DEFAULT);

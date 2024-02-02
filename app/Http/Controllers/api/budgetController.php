@@ -24,11 +24,7 @@ class budgetController extends Controller
                 $budget->client_id = $request->client_id;
             }
         }
-        
-        $products = ProductBudget::where('budget_id', '=', $budget->id)->pluck('amount')->toArray();
-        foreach ($products as $product) {
-            $budget->amount += $product;   
-        }
+        $budget->amount = 0;
         $budget -> save();
         return ['status' => 'ok'];
     }
@@ -47,10 +43,6 @@ class budgetController extends Controller
             }
         }
         
-        $products = ProductBudget::where('budget_id', '=', $budget->id)->pluck('amount')->toArray();
-        foreach ($products as $product) {
-            $budget->amount += $product;   
-        }
         $budget -> save();
         return ['status' => 'ok'];
     }

@@ -46,6 +46,7 @@ Route::namespace('Api') -> group(function(){
         Route::post('updateBudget/{id}', [budgetController::class, 'updateBudget']);
         Route::get('listAllBudget', [budgetController::class, 'listAllBudget']);
         Route::get('listBudget/{id}', [budgetController::class, 'listBudget']);
+        Route::get('listBudgetEspecify/{id}', [budgetController::class, 'listBudgetEspecify']);
         Route::delete('deleteBudget/{id}',[budgetController::class, 'deleteBudget']);
         
 

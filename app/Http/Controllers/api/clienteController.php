@@ -36,7 +36,7 @@ class clienteController extends Controller
             $client->birthday = $request->birthday;
             $client->email = $request->email;
             $client->tel = $request->tel;
-            $client->adress = $request->adress;
+            $client->address = $request->adress;
             $client->save();
             return ['status' => 'ok'];
         }catch(\Exception $erro){

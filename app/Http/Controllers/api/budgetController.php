@@ -56,9 +56,9 @@ class budgetController extends Controller
         }
     }
 
-    public function list4(Request $request){
+    public function listBudget($id){
         try{
-            $budget = budget::all();
+            $budget = budget::find ($id);
             return $budget;
         }catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];

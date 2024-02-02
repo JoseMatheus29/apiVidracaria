@@ -46,7 +46,7 @@ class clienteController extends Controller
     public function listAllClients($page = 1)  {
         try{
             if (Auth::check()) {
-                $client = client::paginate(5, ['*'], 'page', $page);
+                $client = client::paginate(10, ['*'], 'page', $page);
                 return $client;
             }   else {
                 return ['status' => 'erro', 'details' => 'Usuário não autenticado'];

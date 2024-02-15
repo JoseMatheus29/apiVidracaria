@@ -15,7 +15,7 @@ class budgetController extends Controller
         $budget = new budget();
         $budget->status = $request->status;
         $budget->created_at = $request->created_at;
-        $budget->adress = $request->adress;
+        $budget->address = $request->address;
         $budget->city = $request->city;
         $budget->description_payment = $request->description_payment;
         $users = client::all();
@@ -33,7 +33,7 @@ class budgetController extends Controller
         $budget =  budget::find($id);
         $budget->status = $request->status;
         $budget->created_at = $request->created_at;
-        $budget->adress = $request->adress;
+        $budget->address = $request->address;
         $budget->city = $request->city;
         $budget->description_payment = $request->description_payment;
         $users = client::all();

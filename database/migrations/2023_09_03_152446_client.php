@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('birthday');
             $table->string('email');
             $table->string('tel');
-            $table->string('adress');
+            $table->string('address');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
     });
     }

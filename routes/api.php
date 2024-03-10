@@ -30,7 +30,8 @@ Route::namespace('Api') -> group(function(){
         Route::get('listAllClients/{pages}', [clienteController::class, 'listAllClients']);
         Route::get('listClient/{id}', [clienteController::class, 'listClient']);
         Route::delete('delete/{id}',[clienteController::class, 'deleteClient']);
-        
+        Route::get('searchClients', [ClienteController::class, 'searchClients']);
+
         //Routes product
         Route::post('registerProduct', [productController::class, 'registerProduct']);
         Route::post('updateProduct/{id}', [productController::class, 'updateProduct']);

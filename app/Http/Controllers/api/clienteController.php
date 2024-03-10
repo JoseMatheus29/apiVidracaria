@@ -65,6 +65,29 @@ class clienteController extends Controller
         }
     }
 
+
+    public function searchClients(Request $request) {
+        try {
+            if (Auth::check()) {
+                $query = $request->query('search');
+    
+                // Realize a consulta para encontrar clientes que correspondam à pesquisa
+                $clients = Client::where('name', 'LIKE', "%$query%")
+                                ->orderBy('name')
+                                ->get();
+    
+                return $clients;
+            } else {
+                return ['status' => 'erro', 'details' => 'Usuário não autenticado'];
+            }
+        } catch (\Exception $error) {
+            return ['status' => 'erro', 'details' => $error];
+        }
+    }
+    
+    
+
+
     public function listClient( $id){
         try{
             $client = client::find ($id);

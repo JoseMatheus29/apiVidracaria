@@ -71,7 +71,6 @@ class clienteController extends Controller
             if (Auth::check()) {
                 $query = $request->query('search');
     
-                // Realize a consulta para encontrar clientes que correspondam à pesquisa
                 $clients = Client::where('name', 'LIKE', "%$query%")
                                 ->orderBy('name')
                                 ->get();

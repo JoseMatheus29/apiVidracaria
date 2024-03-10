@@ -55,6 +55,7 @@ class budgetController extends Controller
             return ['status' => 'erro', 'details' => $erro];
         }
     }
+ 
 
     public function listBudget($id){
         try{
@@ -65,21 +66,30 @@ class budgetController extends Controller
         }
     }
 
-    public function listBudgetEspecify($id){
-
-            $budget = budget::select('id', 'created_at', 'amount', 'client_id' )->get();
-            $client = client::select('id','name')->get();
-            for($c = 0; $c < sizeof($budget); $c++){
-                for($d = 0; $d < sizeof($client); $d++){
-                    if($budget[$c]['client_id'] == $client[$d]['id']){
-                        $budget[$c]['client_name'] = $client[$d]['name'];
+    public function listBudgetEspecify($page) {
+        try {
+            $budget = Budget::select('id', 'created_at', 'amount', 'client_id')
+                        ->orderBy('created_at', 'desc') // Ordena por ordem de criação (descendente)
+                        ->paginate(10, ['*'], 'page', $page);
+            
+            $clients = Client::select('id', 'name')->get();
+            
+            foreach ($budget as $item) {
+                foreach ($clients as $client) {
+                    if ($item->client_id == $client->id) {
+                        $item->client_name = $client->name;
+                        break;
                     }
                 }
-
             }
+    
             return $budget;
-
+        } catch(\Exception $error) {
+            return ['status' => 'error', 'details' => $error];
+        }
     }
+    
+    
     public function deleteBudget($id){
         try{
             $budget = budget::find ($id);

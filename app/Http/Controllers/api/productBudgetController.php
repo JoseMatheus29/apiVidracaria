@@ -80,10 +80,11 @@ class productBudgetController extends Controller
 
     public function listProductBudgetId($budget_id){
         try{
-            $product = productBudget::where('budget_id','=', $budget_id)->get();
+            $product = productBudget::where('budget_id', '=', $budget_id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
             return $product;
-
-        }catch(\Exception $erro){
+        } catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }
     }

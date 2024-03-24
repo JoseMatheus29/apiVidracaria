@@ -66,14 +66,32 @@ class budgetController extends Controller
         }
     }
 
-    public function listBudgetEspecify($page) {
+    public function listBudgetsAllPaginate($page, Request $request) {
         try {
-            $budget = Budget::select('id', 'created_at', 'amount', 'client_id')
-                        ->orderBy('created_at', 'desc') // Ordena por ordem de criação (descendente)
-                        ->paginate(10, ['*'], 'page', $page);
+            // Obtém os parâmetros da query
+            $client_id = $request->query('client_id');
+            $status = $request->query('status');
+    
+            $query = Budget::select('id', 'created_at', 'amount', 'client_id', 'status');
+    
+            // Se o parâmetro client_id foi fornecido, filtra por client_id
+            if ($client_id !== null) {
+                $query->where('client_id', $client_id);
+            }
+    
+            // Se o parâmetro status foi fornecido, filtra por status
+            if ($status !== null) {
+                $query->where('status', $status);
+            }
+    
+            // Realiza a ordenação e a paginação
+            $budget = $query->orderBy('created_at', 'desc')
+                            ->paginate(10, ['*'], 'page', $page);
             
+            // Obtém os clientes
             $clients = Client::select('id', 'name')->get();
             
+            // Adiciona o nome do cliente a cada item do orçamento
             foreach ($budget as $item) {
                 foreach ($clients as $client) {
                     if ($item->client_id == $client->id) {
@@ -88,6 +106,7 @@ class budgetController extends Controller
             return ['status' => 'error', 'details' => $error];
         }
     }
+    
     
     
     public function deleteBudget($id){

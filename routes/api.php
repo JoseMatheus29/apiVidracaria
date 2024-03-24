@@ -4,7 +4,7 @@ $namespace = 'App\Http\Controllers\Api';
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UsersController;
-use App\Http\Controllers\api\clienteController;
+use App\Http\Controllers\api\clientController;
 use App\Http\Controllers\api\productController;
 use App\Http\Controllers\api\productBudgetController;
 use App\Http\Controllers\api\budgetController;
@@ -25,12 +25,12 @@ Route::namespace('Api') -> group(function(){
 
     Route::group(['middleware' => ['apiProtect']], function () {
         //Crud clients 
-        Route::post('registerClient', [clienteController::class, 'registerClient']);
-        Route::post('updateClient/{id}', [clienteController::class, 'updateClient']);
-        Route::get('listAllClients/{pages}', [clienteController::class, 'listAllClients']);
-        Route::get('listClient/{id}', [clienteController::class, 'listClient']);
-        Route::delete('delete/{id}',[clienteController::class, 'deleteClient']);
-        Route::get('searchClients', [ClienteController::class, 'searchClients']);
+        Route::post('registerClient', [clientController::class, 'registerClient']);
+        Route::post('updateClient/{id}', [clientController::class, 'updateClient']);
+        Route::get('listAllClients/{pages}', [clientController::class, 'listAllClients']);
+        Route::get('listClient/{id}', [clientController::class, 'listClient']);
+        Route::delete('delete/{id}',[clientController::class, 'deleteClient']);
+        Route::get('searchClients', [clientController::class, 'searchClients']);
 
         //Routes product
         Route::post('registerProduct', [productController::class, 'registerProduct']);
@@ -47,7 +47,7 @@ Route::namespace('Api') -> group(function(){
         Route::post('updateBudget/{id}', [budgetController::class, 'updateBudget']);
         Route::get('listAllBudget', [budgetController::class, 'listAllBudget']);
         Route::get('listBudget/{id}', [budgetController::class, 'listBudget']);
-        Route::get('listBudgetEspecify/{pages}', [budgetController::class, 'listBudgetEspecify']);
+        Route::get('listBudgetsAllPaginate/{pages}', [budgetController::class, 'listBudgetsAllPaginate']);
         Route::delete('deleteBudget/{id}',[budgetController::class, 'deleteBudget']);
         
 

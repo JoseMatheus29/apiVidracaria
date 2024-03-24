@@ -8,7 +8,7 @@ use App\Models\client;
 use Illuminate\Support\Facades\Auth;
 
 
-class clienteController extends Controller
+class clientController extends Controller
 {
     public function registerClient(Request $request){
         try{

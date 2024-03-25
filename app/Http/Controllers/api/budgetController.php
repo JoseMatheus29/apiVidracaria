@@ -26,7 +26,7 @@ class budgetController extends Controller
         }
         $budget->amount = 0;
         $budget -> save();
-        return ['status' => 'ok'];
+        return ['status' => 'ok', 'budget_id' => $budget->id];
     }
 
     public function updateBudget(Request $request, $id){
@@ -46,7 +46,7 @@ class budgetController extends Controller
         $budget -> save();
         return ['status' => 'ok'];
     }
-
+        
     public function listAllBudget(Request $request){
         try{
             $budget = budget::all();

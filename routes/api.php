@@ -7,6 +7,7 @@ use App\Http\Controllers\api\UsersController;
 use App\Http\Controllers\api\clientController;
 use App\Http\Controllers\api\productController;
 use App\Http\Controllers\api\productBudgetController;
+use App\Http\Controllers\api\budgetPaymentController;
 use App\Http\Controllers\api\budgetController;
 
 Route::namespace('Api') -> group(function(){
@@ -62,6 +63,8 @@ Route::namespace('Api') -> group(function(){
     Route::get('listProductBudgetId/{budget_id}', [productBudgetController::class, 'listProductBudgetId']);
     Route::delete('deleteProductBudget/{id}',[productBudgetController::class, 'deleteProduct']);
     
-
+    Route::post('registerBudgetPayment', [budgetPaymentController::class, 'registerBudgetPayment']);
+    Route::get('listBudgetPaymentBudgetId/{budget_id}', [budgetPaymentController::class, 'listBudgetPaymentBudgetId']);
+    
 
 });

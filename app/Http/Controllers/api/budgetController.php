@@ -16,6 +16,7 @@ class budgetController extends Controller
         $budget->status = $request->status;
         $budget->created_at = $request->created_at;
         $budget->address = $request->address;
+        $budget->deadline = $request->deadline;
         $budget->city = $request->city;
         $budget->description_payment = $request->description_payment;
         $users = client::all();
@@ -35,6 +36,7 @@ class budgetController extends Controller
         $budget->created_at = $request->created_at;
         $budget->address = $request->address;
         $budget->city = $request->city;
+        $budget->deadline = $request->deadline;
         $budget->description_payment = $request->description_payment;
         $users = client::all();
         foreach($users as $user){

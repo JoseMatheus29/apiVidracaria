@@ -74,7 +74,7 @@ class budgetController extends Controller
             $client_id = $request->query('client_id');
             $status = $request->query('status');
     
-            $query = Budget::select('id', 'created_at', 'amount', 'client_id', 'status');
+            $query = Budget::select('id', 'created_at', 'amount', 'client_id', 'status', 'deadline', 'payed', 'hired');
     
             // Se o parâmetro client_id foi fornecido, filtra por client_id
             if ($client_id !== null) {

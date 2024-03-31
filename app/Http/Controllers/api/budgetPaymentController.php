@@ -6,11 +6,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BudgetPayment;
 use App\Models\budget;
+use App\Models\client;
 
 class budgetPaymentController extends Controller
 {
     public function registerBudgetPayment(Request $request){
         try{
+             // Verificar se o cliente existe
+            $client = Client::find($request->client_id);
+            if (!$client) {
+                throw new \Exception('Cliente não encontrado.');
+            }
+
+            // Verificar se o orçamento existe
+            $budget = Budget::find($request->budget_id);
+            if (!$budget) {
+                throw new \Exception('Orçamento não encontrado.');
+            }
+
+            // Verificar se o pagamento excede o valor do orçamento
+            if ($budget->paid_amount + $request->value > $budget->amount) {
+                throw new \Exception('O pagamento excede o valor do orçamento.');
+            }
+
             $budget_payment = new BudgetPayment();
             
             $budget_payment->description = $request->description;
@@ -21,6 +39,11 @@ class budgetPaymentController extends Controller
             $budget_payment->created_at = $request->created_at;
                 
             $budget_payment->save();
+
+            if ($budget->paid_amount + $request->value == $budget->amount) {
+                $budget->payed = 1;
+                $budget->save();
+            }
             
             return ['status' => 'ok'];
         }
@@ -35,22 +58,18 @@ class budgetPaymentController extends Controller
             $budget_payments = BudgetPayment::where('budget_id', $budget_id)
                 ->orderBy('created_at', 'asc')
                 ->get();
-
-            $budget = budget::find($budget_id);
     
-            // Calcular o amountFinal
-            
-            $amountFinale = $budget->amount;
-
-            foreach ($budget_payments as $payment) {
-                $amountFinale -= $payment->value;
-            
-            }
+            // Obter o orçamento
+            $budget = Budget::find($budget_id);
     
-            // Adicionar amountFinale aos dados do orçamento e retornar
+            // Calcular o amountFinal (valor restante)
+            $remaining_amount = $budget->amount - $budget->paid_amount;
+    
+            // Adicionar amountFinal aos dados do orçamento e retornar
             $budgetData = [
                 'data' => $budget_payments,
-                'amountFinale' => $amountFinale
+                'paid_amount' => $budget->paid_amount,
+                'remaining_amount' => $remaining_amount 
             ];
     
             return $budgetData;
@@ -58,6 +77,7 @@ class budgetPaymentController extends Controller
             return ['status' => 'erro', 'details' => $erro->getMessage()];
         }
     }
+    
     
     
 }

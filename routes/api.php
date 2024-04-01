@@ -34,11 +34,11 @@ Route::namespace('Api') -> group(function(){
         Route::get('searchClients', [clientController::class, 'searchClients']);
 
         //Routes product
-        Route::post('registerProduct', [productController::class, 'registerProduct']);
-        Route::post('updateProduct/{id}', [productController::class, 'updateProduct']);
-        Route::get('listAllProducts', [productController::class, 'listAllProducts']);
-        Route::get('listProduct/{id}', [productController::class, 'listProduct']);
-        Route::delete('deleteProduct/{id}',[productController::class, 'deleteProduct']);
+        // Route::post('registerProduct', [productController::class, 'registerProduct']);
+        // Route::post('updateProduct/{id}', [productController::class, 'updateProduct']);
+        // Route::get('listAllProducts/{budget_id}', [productController::class, 'listAllProducts']);
+        // Route::get('listProduct/{id}', [productController::class, 'listProduct']);
+        // Route::delete('deleteProduct/{id}',[productController::class, 'deleteProduct']);
         
         //Routes users
         Route::get('listAllUsers', [UsersController::class, 'listAllUsers']);
@@ -59,7 +59,7 @@ Route::namespace('Api') -> group(function(){
         //Routes product Budget
         Route::post('registerProductBudget', [productBudgetController::class, 'registerProduct']);
         Route::post('updateProductBudget/{id}', [productBudgetController::class, 'updateProductBudget']);
-        Route::get('listAllProductBudget', [productBudgetController::class, 'listAllProducts']);
+        Route::get('listAllProductsBudgets/{budget_id}', [productBudgetController::class, 'listAllProductsBudgets']);
         Route::get('listProductBudget/{id}', [productBudgetController::class, 'listProduct']);
         Route::get('listProductBudgetId/{budget_id}', [productBudgetController::class, 'listProductBudgetId']);
         Route::delete('deleteProductBudget/{id}',[productBudgetController::class, 'deleteProduct']);

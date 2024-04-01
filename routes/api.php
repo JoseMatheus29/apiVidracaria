@@ -39,32 +39,36 @@ Route::namespace('Api') -> group(function(){
         Route::get('listAllProducts', [productController::class, 'listAllProducts']);
         Route::get('listProduct/{id}', [productController::class, 'listProduct']);
         Route::delete('deleteProduct/{id}',[productController::class, 'deleteProduct']);
+        
         //Routes users
         Route::get('listAllUsers', [UsersController::class, 'listAllUsers']);
         Route::get('listUser/{id}', [UsersController::class, 'listUser']);
         Route::delete('deleteUser/{id}', [UsersController::class, 'deleteUser']);
         
+        //Routes budgets
         Route::post('registerBudget', [budgetController::class, 'registerBudget']);
         Route::post('updateBudget/{id}', [budgetController::class, 'updateBudget']);
+        Route::put('updateBudgetDeadline/{id}', [budgetController::class, 'updateBudgetDeadline']);
+        Route::put('updateBudgetStatus/{id}', [budgetController::class, 'updateBudgetStatus']);
+        Route::put('updateBudgetHired/{id}', [budgetController::class, 'updateBudgetHired']);
         Route::get('listAllBudget', [budgetController::class, 'listAllBudget']);
         Route::get('listBudget/{id}', [budgetController::class, 'listBudget']);
         Route::get('listBudgetsAllPaginate/{pages}', [budgetController::class, 'listBudgetsAllPaginate']);
         Route::delete('deleteBudget/{id}',[budgetController::class, 'deleteBudget']);
         
-
+        //Routes product Budget
+        Route::post('registerProductBudget', [productBudgetController::class, 'registerProduct']);
+        Route::post('updateProductBudget/{id}', [productBudgetController::class, 'updateProductBudget']);
+        Route::get('listAllProductBudget', [productBudgetController::class, 'listAllProducts']);
+        Route::get('listProductBudget/{id}', [productBudgetController::class, 'listProduct']);
+        Route::get('listProductBudgetId/{budget_id}', [productBudgetController::class, 'listProductBudgetId']);
+        Route::delete('deleteProductBudget/{id}',[productBudgetController::class, 'deleteProduct']);
+        
+        //Routes Budget Payment
+        Route::post('registerBudgetPayment', [budgetPaymentController::class, 'registerBudgetPayment']);
+        Route::get('listBudgetPaymentBudgetId/{budget_id}', [budgetPaymentController::class, 'listBudgetPaymentBudgetId']);
+        Route::delete('deleteBudgetPayment/{id}', [budgetPaymentController::class, 'deleteBudgetPayment']);
+        
     });
-
-
-    //Routes product Budget
-    Route::post('registerProductBudget', [productBudgetController::class, 'registerProduct']);
-    Route::post('updateProductBudget/{id}', [productBudgetController::class, 'updateProductBudget']);
-    Route::get('listAllProductBudget', [productBudgetController::class, 'listAllProducts']);
-    Route::get('listProductBudget/{id}', [productBudgetController::class, 'listProduct']);
-    Route::get('listProductBudgetId/{budget_id}', [productBudgetController::class, 'listProductBudgetId']);
-    Route::delete('deleteProductBudget/{id}',[productBudgetController::class, 'deleteProduct']);
-    
-    Route::post('registerBudgetPayment', [budgetPaymentController::class, 'registerBudgetPayment']);
-    Route::get('listBudgetPaymentBudgetId/{budget_id}', [budgetPaymentController::class, 'listBudgetPaymentBudgetId']);
-    
 
 });

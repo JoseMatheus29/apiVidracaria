@@ -48,7 +48,90 @@ class budgetController extends Controller
         $budget -> save();
         return ['status' => 'ok'];
     }
-        
+
+    public function updateBudgetDeadline(Request $request, $id){
+        try {
+            // Encontrar o orçamento pelo ID fornecido
+            $budget = Budget::find($id);
+    
+            // Verificar se o orçamento foi encontrado
+            if (!$budget) {
+                throw new \Exception('Orçamento não encontrado.');
+            }
+            
+            // Verificar se a data de vencimento está definida no request e não é vazia
+            if ($request->has('deadline') && !empty($request->deadline)) {
+                $budget->deadline = $request->deadline;
+            } else {
+                throw new \Exception('A data de vencimento não pode estar vazia.');
+            }
+    
+            // Salvar as alterações no orçamento
+            $budget->save();
+    
+            // Retornar uma resposta de sucesso
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $erro) {
+            // Retornar uma resposta de erro com detalhes do erro
+            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
+        }
+    }
+    
+    public function updateBudgetStatus(Request $request, $id){
+        try {
+            // Encontrar o orçamento pelo ID fornecido
+            $budget = Budget::find($id);
+    
+            // Verificar se o orçamento foi encontrado
+            if (!$budget) {
+                throw new \Exception('Orçamento não encontrado.');
+            }
+     
+            $budget->status = $request->status;
+            
+    
+            // Salvar as alterações no orçamento
+            $budget->save();
+    
+            // Retornar uma resposta de sucesso
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $erro) {
+            // Retornar uma resposta de erro com detalhes do erro
+            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
+        }
+    }
+
+    public function updateBudgetHired(Request $request, $id){
+        try {
+            // Encontrar o orçamento pelo ID fornecido
+            $budget = Budget::find($id);
+    
+            // Verificar se o orçamento foi encontrado
+            if (!$budget) {
+                throw new \Exception('Orçamento não encontrado.');
+            }
+    
+            // Definir hired e hired_at
+            $budget->hired = $request->hired;
+            if ($request->hired) {
+                // Se hired for verdadeiro, definir hired_at como a data atual
+                $budget->hired_at = now();
+            } else {
+                // Se hired for falso, definir hired_at como nulo
+                $budget->hired_at = null;
+            }
+    
+            // Salvar as alterações no orçamento
+            $budget->save();
+    
+            // Retornar uma resposta de sucesso
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $erro) {
+            // Retornar uma resposta de erro com detalhes do erro
+            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
+        }
+    }
+
     public function listAllBudget(Request $request){
         try{
             $budget = budget::all();
@@ -73,17 +156,26 @@ class budgetController extends Controller
             // Obtém os parâmetros da query
             $client_id = $request->query('client_id');
             $status = $request->query('status');
+            $hired = $request->query('hired');
+            $payed = $request->query('payed');
     
             $query = Budget::select('id', 'created_at', 'amount', 'client_id', 'status', 'deadline', 'payed', 'hired');
     
-            // Se o parâmetro client_id foi fornecido, filtra por client_id
+           
             if ($client_id !== null) {
                 $query->where('client_id', $client_id);
             }
     
-            // Se o parâmetro status foi fornecido, filtra por status
             if ($status !== null) {
                 $query->where('status', $status);
+            }
+
+            if ($hired !== null) {
+                $query->where('hired', $hired);
+            }
+
+            if($payed !== null) {
+                $query->where('payed', $payed);
             }
     
             // Realiza a ordenação e a paginação

@@ -19,7 +19,7 @@ class budgetPaymentController extends Controller
             }
 
             // Verificar se o orçamento existe
-            $budget = Budget::find($request->budget_id);
+            $budget = budget::find($request->budget_id);
             if (!$budget) {
                 throw new \Exception('Orçamento não encontrado.');
             }
@@ -38,13 +38,20 @@ class budgetPaymentController extends Controller
             $budget_payment->client_id = $request->client_id;
             $budget_payment->created_at = $request->created_at;
                 
-            $budget_payment->save();
+            
 
             if ($budget->paid_amount + $request->value == $budget->amount) {
                 $budget->payed = 1;
+                $budget->payed_at = now();
+                $budget->save();
+            } else {
+                $budget->payed = 0;
+                $budget->payed_at = null;
                 $budget->save();
             }
             
+            $budget_payment->save();
+
             return ['status' => 'ok'];
         }
         catch(\Exception $erro){
@@ -60,7 +67,7 @@ class budgetPaymentController extends Controller
                 ->get();
     
             // Obter o orçamento
-            $budget = Budget::find($budget_id);
+            $budget = budget::find($budget_id);
     
             // Calcular o amountFinal (valor restante)
             $remaining_amount = $budget->amount - $budget->paid_amount;
@@ -77,6 +84,38 @@ class budgetPaymentController extends Controller
             return ['status' => 'erro', 'details' => $erro->getMessage()];
         }
     }
+
+    public function deleteBudgetPayment($id)
+    {
+        try {
+            // Encontrar o pagamento do orçamento a ser excluído
+            $budgetPayment = BudgetPayment::find($id);
+            if (!$budgetPayment) {
+                throw new \Exception('Pagamento do orçamento não encontrado.');
+            }
+    
+            // Encontrar o orçamento associado ao pagamento do orçamento
+            $budget = Budget::find($budgetPayment->budget_id);
+            if (!$budget) {
+                throw new \Exception('Orçamento associado ao pagamento não encontrado.');
+            }
+    
+            // Verificar se o orçamento já estava marcado como pago e, em caso afirmativo, atualizar para não pago
+            if ($budget->payed == 1) {
+                $budget->payed = 0;
+                $budget->payed_at = null;
+                $budget->save();
+            }
+            
+            $budgetPayment->delete();
+    
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
+        }
+    }
+    
+
     
     
     

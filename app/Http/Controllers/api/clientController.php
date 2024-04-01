@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\client;
 use Illuminate\Support\Facades\Auth;
+use App\Models\budget;
+use App\Models\product;
+use App\Models\BudgetPayment;
+use App\Models\productBudget;
 
 
 class clientController extends Controller
@@ -99,6 +103,18 @@ class clientController extends Controller
 
     public function deleteClient($id){
         try{
+            $budget_payments = BudgetPayment::where('client_id', $id);
+            $budget_payments->delete();
+
+            $budgets = Budget::where('client_id', $id)->get();
+
+            foreach ($budgets as $budget) {
+                $product = productBudget::where('budget_id', $budget->id);
+                $product->delete();
+            }
+
+            $budget->delete();
+            
             $client = client::find($id);
             $client->delete();
             return ['status' => 'ok'];

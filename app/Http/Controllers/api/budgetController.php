@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\budget;
 use App\Models\client;
 use App\Models\product;
+use App\Models\BudgetPayment;
 use App\Models\productBudget;
 
 class budgetController extends Controller
@@ -205,6 +206,12 @@ class budgetController extends Controller
     
     public function deleteBudget($id){
         try{
+            $product = productBudget::where('budget_id', $id);
+            $product->delete();
+
+            $budget_payments = BudgetPayment::where('budget_id', $id);
+            $budget_payments->delete();
+
             $budget = budget::find ($id);
             $budget -> delete();
             return ['status' => 'ok'];

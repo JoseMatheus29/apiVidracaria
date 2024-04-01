@@ -92,15 +92,18 @@ class productBudgetController extends Controller
         }
     }
     
-    public function listAllProducts()  {
-        try{
-            $product = productBudget::all();
-            return $product;
-        }catch(\Exception $erro){
-            return ['status' => 'erro', 'details' => $erro];
+    public function listAllProductsBudgets($budget_id)  {
+        try {
+            $products = productBudget::where('budget_id', $budget_id)->get();
+            return response()->json(['status' => 'ok', 'products' => $products]);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
         }
     }
-    public function listProduct( $id){
+    
+
+
+    public function listProduct($id){
         try{
             $product = productBudget::find ($id);
             return $product;

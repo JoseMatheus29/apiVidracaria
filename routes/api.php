@@ -8,7 +8,10 @@ use App\Http\Controllers\api\clientController;
 use App\Http\Controllers\api\productController;
 use App\Http\Controllers\api\productBudgetController;
 use App\Http\Controllers\api\budgetPaymentController;
+use App\Http\Controllers\api\financialStatisticsController;
 use App\Http\Controllers\api\budgetController;
+use App\Http\Controllers\api\projectTypeController;
+use App\Http\Controllers\api\projectController;
 
 Route::namespace('Api') -> group(function(){
     //Routes Login
@@ -50,6 +53,7 @@ Route::namespace('Api') -> group(function(){
         Route::post('updateBudget/{id}', [budgetController::class, 'updateBudget']);
         Route::put('updateBudgetDeadline/{id}', [budgetController::class, 'updateBudgetDeadline']);
         Route::put('updateBudgetStatus/{id}', [budgetController::class, 'updateBudgetStatus']);
+        Route::put('updateBudgetDescription/{id}', [budgetController::class, 'updateBudgetDescription']);
         Route::put('updateBudgetHired/{id}', [budgetController::class, 'updateBudgetHired']);
         Route::get('listAllBudget', [budgetController::class, 'listAllBudget']);
         Route::get('listBudget/{id}', [budgetController::class, 'listBudget']);
@@ -68,7 +72,25 @@ Route::namespace('Api') -> group(function(){
         Route::post('registerBudgetPayment', [budgetPaymentController::class, 'registerBudgetPayment']);
         Route::get('listBudgetPaymentBudgetId/{budget_id}', [budgetPaymentController::class, 'listBudgetPaymentBudgetId']);
         Route::delete('deleteBudgetPayment/{id}', [budgetPaymentController::class, 'deleteBudgetPayment']);
+
+        // Routes Dashboard
+        Route::get('amountReceived', [financialStatisticsController::class, 'amountReceived']);
+       
+        Route::get('/financialSummary', [financialStatisticsController::class, 'getFinancialSummary']);
+
+        Route::get('/earnings', [financialStatisticsController::class, 'getEarnings']);
+
+
+        //ProjectType
+        Route::get('listProjectTypeAll', [projectTypeController::class, 'listProjectTypeAll']);
+        Route::post('registerCategory', [projectTypeController::class, 'registerCategory']);
+
+        Route::get('listProjectByType', [projectController::class, 'listProjectByType']);
+        Route::post('createProject', [projectController::class, 'createProject']);
+        Route::get('listProjectById/{id}', [projectController::class, 'listProjectById']);
+       
         
     });
-
+    
+   
 });

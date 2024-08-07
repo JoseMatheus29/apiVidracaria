@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\budget;
 use App\Models\productBudget;
+use App\Models\project;
 
 class productBudgetController extends Controller
 {
@@ -16,6 +17,7 @@ class productBudgetController extends Controller
             $product->description = $request->description;
             $product->quantity = $request->quantity;
             $product->value = $request->value;
+            $product->project_id = $request->project_id;
             $product->type = $request->type;
             $product->height = $request->height;
             $product->width = $request->width;
@@ -56,6 +58,7 @@ class productBudgetController extends Controller
             $product->description = $request->description;
             $product->quantity = $request->quantity;
             $product->value = $request->value;
+            $product->project_id = $request->project_id;
             $product->type = $request->type;
             $product->height = $request->height;
             $product->width = $request->width;
@@ -93,11 +96,27 @@ class productBudgetController extends Controller
     }
     
     public function listAllProductsBudgets($budget_id)  {
-        try {
-            $products = productBudget::where('budget_id', $budget_id)->get();
-            return response()->json(['status' => 'ok', 'products' => $products]);
-        } catch (\Exception $erro) {
-            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
+        try{
+            $product = productBudget::where('budget_id', '=', $budget_id)->get();
+            
+
+            // Obter os projetos
+            $projects = project::select('id', 'image_url')->get();
+
+            // Adiciona o nome do cliente a cada item do orçamento
+            foreach ($product as $item) {
+                foreach ($projects as $project) {
+                    if ($item->project_id == $project->id) {
+                        $item->image_url = $project->image_url;
+                        break;
+                    }
+                }
+            }
+
+            return $product; 
+
+        } catch(\Exception $erro){
+            return ['status' => 'erro', 'details' => $erro];
         }
     }
     
@@ -118,7 +137,24 @@ class productBudgetController extends Controller
             $product = productBudget::where('budget_id', '=', $budget_id)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-            return $product;
+            
+
+            // Obter os projetos
+            $projects = project::select('id','name', 'image_url')->get();
+
+            // Adiciona o nome do cliente a cada item do orçamento
+            foreach ($product as $item) {
+                foreach ($projects as $project) {
+                    if ($item->project_id == $project->id) {
+                        $item->image_url = $project->image_url;
+                        $item->project_name = $project->name;
+                        break;
+                    }
+                }
+            }
+
+            return $product; 
+
         } catch(\Exception $erro){
             return ['status' => 'erro', 'details' => $erro];
         }

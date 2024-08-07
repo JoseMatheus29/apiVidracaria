@@ -9,6 +9,7 @@ use App\Models\client;
 use App\Models\product;
 use App\Models\BudgetPayment;
 use App\Models\productBudget;
+use Illuminate\Support\Facades\Log;
 
 class budgetController extends Controller
 {
@@ -19,7 +20,7 @@ class budgetController extends Controller
         $budget->address = $request->address;
         $budget->deadline = $request->deadline;
         $budget->city = $request->city;
-        $budget->description_payment = $request->description_payment;
+        // $budget->description_payment = $request->description_payment;
         $users = client::all();
         foreach($users as $user){
             if ($user['id'] == $request->client_id){
@@ -90,6 +91,31 @@ class budgetController extends Controller
      
             $budget->status = $request->status;
             
+    
+            // Salvar as alterações no orçamento
+            $budget->save();
+    
+            // Retornar uma resposta de sucesso
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $erro) {
+            // Retornar uma resposta de erro com detalhes do erro
+            return response()->json(['status' => 'erro', 'details' => $erro->getMessage()], 500);
+        }
+    }
+
+    public function updateBudgetDescription(Request $request, $id) {
+        Log::info($request->all());
+        try {
+            // Encontrar o orçamento pelo ID fornecido
+            $budget = Budget::find($id);
+    
+            // Verificar se o orçamento foi encontrado
+            if (!$budget) {
+                throw new \Exception('Orçamento não encontrado.');
+            }
+    
+            // Atualizar o campo description_payment
+            $budget->description_payment = $request->description_payment;
     
             // Salvar as alterações no orçamento
             $budget->save();

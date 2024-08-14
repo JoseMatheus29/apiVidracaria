@@ -48,6 +48,7 @@ class projectController extends Controller
         try {
             // Consulta para buscar o projeto pelo ID
             $project = Project::find($id);
+            
     
             // Verifica se o projeto foi encontrado
             if ($project) {
